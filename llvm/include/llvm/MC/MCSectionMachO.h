@@ -66,7 +66,8 @@ public:
                                      StringRef &Section,  // Out.
                                      unsigned &TAA,       // Out.
                                      bool &TAAParsed,     // Out.
-                                     unsigned &StubSize); // Out.
+                                     unsigned &StubSize, // Out.
+                                     bool HashedSectionName = false); // In.
 
   void PrintSwitchToSection(const MCAsmInfo &MAI, const Triple &T,
                             raw_ostream &OS,

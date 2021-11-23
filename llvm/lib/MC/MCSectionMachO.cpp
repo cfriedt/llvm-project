@@ -179,7 +179,8 @@ Error MCSectionMachO::ParseSectionSpecifier(StringRef Spec,       // In.
                                             StringRef &Section,   // Out.
                                             unsigned &TAA,        // Out.
                                             bool &TAAParsed,      // Out.
-                                            unsigned &StubSize) { // Out.
+                                            unsigned &StubSize,   // Out.
+                                            bool HashedSectionName) { // In.
   TAAParsed = false;
 
   SmallVector<StringRef, 5> SplitSpec;
@@ -201,7 +202,7 @@ Error MCSectionMachO::ParseSectionSpecifier(StringRef Spec,       // In.
                              "and section separated by a comma");
 
   // Verify that the section is not too long.
-  if (Section.size() > 16)
+  if (!HashedSectionName && Section.size() > 16)
     return createStringError(inconvertibleErrorCode(),
                              "mach-o section specifier requires a section "
                              "whose length is between 1 and 16 characters");

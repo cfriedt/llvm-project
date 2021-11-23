@@ -286,6 +286,8 @@ public:
     ExtendTo64
   };
 
+  std::string HashedSectionNamesOutputFile;
+
 public:
   /// The used language standard.
   LangStandard::Kind LangStd;
@@ -387,6 +389,14 @@ public:
   Type get##Name() const { return static_cast<Type>(Name); } \
   void set##Name(Type Value) { Name = static_cast<unsigned>(Value); }
 #include "clang/Basic/LangOptions.def"
+
+  unsigned hashSectionNames() const {
+    return HashSectionNames;
+  }
+
+  std::string getHashedSectionNamesOutputFile() const {
+    return HashedSectionNamesOutputFile;
+  }
 
   /// Are we compiling a module interface (.cppm or module map)?
   bool isCompilingModule() const {

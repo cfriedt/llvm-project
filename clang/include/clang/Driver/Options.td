@@ -6463,3 +6463,10 @@ def _SLASH_Ze : CLFlag<"Ze">;
 def _SLASH_Zg : CLFlag<"Zg">;
 def _SLASH_ZI : CLFlag<"ZI">;
 def _SLASH_ZW : CLJoined<"ZW">;
+def fhash_section_names_EQ : Joined<["-"],"fhash-section-names=">, Group<f_Group>,
+  Flags<[CC1Option,CC1AsOption]>, MarshallingInfoInt<LangOpts<"HashSectionNames">, "0">, MetaVarName<"<N>">,
+  HelpText<"Hash section names longer than N charachters. Defaults to \"0\" (no hashing).">;
+def fhashed_section_names_EQ : Joined<["-"],"fhashed-section-names=">,
+  Flags<[NoXarchOption, CC1Option, CC1AsOption]>, MetaVarName<"<path>">,
+  MarshallingInfoString<LangOpts<"HashedSectionNamesOutputFile">, [{"none"}]>,
+  HelpText<"Output hashed section names to <path>.">;

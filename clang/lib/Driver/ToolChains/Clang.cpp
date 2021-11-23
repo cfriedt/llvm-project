@@ -5439,6 +5439,26 @@ void Clang::ConstructJob(Compilation &C, const JobAction &JA,
                     options::OPT_fno_unique_section_names, true))
     CmdArgs.push_back("-fno-unique-section-names");
 
+  if (Args.hasArg(options::OPT_fhash_section_names_EQ)) {
+    auto *Arg = Args.getLastArg(options::OPT_fhash_section_names_EQ);
+    unsigned Value = 0;
+    if (StringRef(Arg->getValue()).getAsInteger(10, Value))
+      D.Diag(diag::err_drv_invalid_int_value)
+          << Arg->getAsString(Args) << Arg->getValue();
+    // Treat =0 as unspecified
+    if (Value)
+      CmdArgs.push_back(Args.MakeArgString(
+          "-fhash-section-names=" + Twine(Value)));
+  }
+
+  if (Args.hasArg(options::OPT_fhashed_section_names_EQ)) {
+    auto *Arg = Args.getLastArg(options::OPT_fhashed_section_names_EQ);
+    auto Value = StringRef(Arg->getValue());
+    // TODO: if Value is unspecified, then use the output file with extension '.sn'
+    CmdArgs.push_back(Args.MakeArgString(
+          "-fhashed-section-names=" + Twine(Value)));
+  }
+
   if (Args.hasFlag(options::OPT_funique_internal_linkage_names,
                    options::OPT_fno_unique_internal_linkage_names, false))
     CmdArgs.push_back("-funique-internal-linkage-names");

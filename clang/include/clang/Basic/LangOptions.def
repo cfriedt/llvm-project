@@ -434,6 +434,8 @@ ENUM_LANGOPT(ExtendIntArgs, ExtendArgsKind, 1, ExtendArgsKind::ExtendTo32,
 
 VALUE_LANGOPT(FuchsiaAPILevel, 32, 0, "Fuchsia API level")
 
+LANGOPT(HashSectionNames, 32, 0, "Set for -fhash-section-names=N. N defines both hash size and threshold size. 0 := no hashing.")
+
 #undef LANGOPT
 #undef COMPATIBLE_LANGOPT
 #undef BENIGN_LANGOPT

@@ -310,6 +310,9 @@ void Sema::ActOnPragmaClangSection(SourceLocation PragmaLoc,
     return;
   }
 
+  // Possibly hash long section name based on "-fhash-long-section-names=N"
+  hashSectionNameForSectionAttr(SecName);
+
   if (UnifySection(SecName, SectionFlags, PragmaLoc))
     return;
 

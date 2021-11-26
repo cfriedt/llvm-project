@@ -3140,8 +3140,9 @@ llvm::Error Sema::isValidSectionSpecifier(StringRef SecName) {
   StringRef Segment, Section;
   unsigned TAA, StubSize;
   bool HasTAA;
+  unsigned N = Context.getLangOpts().hashSectionNames();
   return llvm::MCSectionMachO::ParseSectionSpecifier(SecName, Segment, Section,
-                                                     TAA, HasTAA, StubSize);
+                                                     TAA, HasTAA, StubSize, N > 0);
 }
 
 bool Sema::checkSectionName(SourceLocation LiteralLoc, StringRef SecName) {
@@ -3163,6 +3164,9 @@ static void handleSectionAttr(Sema &S, Decl *D, const ParsedAttr &AL) {
 
   if (!S.checkSectionName(LiteralLoc, Str))
     return;
+
+  // Possibly hash long section name based on "-fhash-long-section-names=N"
+  S.hashSectionNameForSectionAttr(Str);
 
   SectionAttr *NewAttr = S.mergeSectionAttr(D, AL, Str);
   if (NewAttr) {

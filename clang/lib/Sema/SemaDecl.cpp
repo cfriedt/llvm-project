@@ -7443,6 +7443,13 @@ NamedDecl *Sema::ActOnVariableDeclarator(
       }
     }
 
+    // Handle MachO Section start / end attribute - e.g. "section$start$__RODATA$mysection"
+    if (Context.getTargetInfo().getTriple().isOSDarwin()
+      && (Label.startswith("section$start$") || Label.startswith("section$end$"))
+      && std::count_if(Label.begin(), Label.end(), [](char c){return c == '$';}) >= 3) {
+        hashSectionNameForAsmLabelAttr(Label);
+    }
+
     NewVD->addAttr(AsmLabelAttr::Create(Context, Label,
                                         /*IsLiteralLabel=*/true,
                                         SE->getStrTokenLoc(0)));

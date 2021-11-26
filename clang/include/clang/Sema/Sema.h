@@ -387,6 +387,8 @@ class Sema final {
                                       QualType ResultTy,
                                       ArrayRef<QualType> Args);
 
+  void hashSectionNameForLabel(StringRef& Name);
+
 public:
   /// The maximum alignment, same as in llvm::Value. We duplicate them here
   /// because that allows us not to duplicate the constants in clang code,
@@ -4362,6 +4364,8 @@ public:
                                       SourceLocation *ArgLocation = nullptr);
   llvm::Error isValidSectionSpecifier(StringRef Str);
   bool checkSectionName(SourceLocation LiteralLoc, StringRef Str);
+  void hashSectionNameForSectionAttr(StringRef& Label);
+  void hashSectionNameForAsmLabelAttr(StringRef& Label);
   bool checkTargetAttr(SourceLocation LiteralLoc, StringRef Str);
   bool checkTargetClonesAttrString(SourceLocation LiteralLoc, StringRef Str,
                                    const StringLiteral *Literal,
